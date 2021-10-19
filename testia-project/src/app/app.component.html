@@ -2,21 +2,24 @@
   <img src="../assets/images/Testia-full.png" alt="logo Testia" height="50">
 </mat-toolbar>
 
-<canvas id="canvasId" width="900" height="600">Canvas not supported</canvas>
-
-<mat-divider></mat-divider>
 <div class="button-container">
+  <input #imgInput hidden="true" type="file" (change)="importImg($event.target.files)"
+            accept="image/png, image/jpeg" />
   <button mat-fab color="primary" aria-label="The import button"
-          (click)="importImg()">
+          (click)="imgInput.click()">
     <mat-icon>add</mat-icon>
   </button>
   <button mat-fab color="primary" aria-label="The draw button"
-          (click)="draw()">
+          (click)="draw()" [disabled]="!imgLoad">
     <mat-icon>create</mat-icon>
   </button>
   <button mat-fab color="primary" aria-label="The zoom/zoom out button"
-          (click)="toggleZoom()">
+          (click)="toggleZoom()" [disabled]="!imgLoad">
     <mat-icon *ngIf="!isZoom">zoom_in</mat-icon>
     <mat-icon *ngIf="isZoom">zoom_out</mat-icon>
   </button>
 </div>
+
+<mat-divider></mat-divider>
+
+<canvas #canvas>Canvas not supported</canvas>
