@@ -1,0 +1,14 @@
+.button-container {
+  display: flex;
+  padding: 1em;
+  margin-left: 20%;
+}
+
+button {
+  margin-left: 1em;
+}
+
+canvas {
+  margin: 2em;
+  border : 3px solid #687e8a;
+}
