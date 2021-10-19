@@ -2,6 +2,7 @@
   <img src="../assets/images/Testia-full.png" alt="logo Testia" height="50">
 </mat-toolbar>
 
+<!-- Container with our 3 buttons -->
 <div class="button-container">
   <input #imgInput hidden="true" type="file" (change)="importImg($event.target.files)"
             accept="image/png, image/jpeg" />
@@ -25,5 +26,5 @@
 </div>
 
 <mat-divider></mat-divider>
-
+<!-- The responsive Canvas -->
 <canvas #canvas (contextmenu)="clickRight($event)" (click)="draw($event)" >Canvas not supported</canvas>

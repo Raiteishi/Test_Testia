@@ -28,6 +28,7 @@ export class AppComponent implements AfterViewInit {
     this.canvasNativeElement.height = 600;
   }
 
+  /** Import the image, clean the canvas in case an image is already here and draw the new image with this new file */
   importImg(files: FileList) {
     this.file = files.item(0);
     this.cleanCanvas();
@@ -39,12 +40,14 @@ export class AppComponent implements AfterViewInit {
     this.enableDrawLine = !this.enableDrawLine;
   }
 
+  /** Delete all drawing on the canvas by deleting the canvas and reloading the image */
   clickRight(e: MouseEvent) {
     this.cleanCanvas();
     this.drawImage();
     this.getFirstPoint = false;
   }
 
+  /** Function enable when the draw button is click. Get the position of the first point with the first click and call the drawLine function on the second click */
   draw(e: MouseEvent): void {
     if (this.enableDrawLine) {
       const y = e.offsetY;
@@ -65,6 +68,7 @@ export class AppComponent implements AfterViewInit {
     this.zoomMessage = this.isZoom ? 'Dezoomer' : 'Zoomer';
   }
 
+  /** Function to draw a line in the canvas. The line is draw by getting the position of two click of the user */
   private drawLine(mousePos2) {
       this.ctx.beginPath();
       this.ctx.lineWidth = 2;
@@ -74,6 +78,7 @@ export class AppComponent implements AfterViewInit {
       this.ctx.closePath();
   }
 
+  /** Function to display the image in the canvas and adapt the size of the canvas to the size of the image */
   private drawImage(): void {
     if (this.file) {
       const img = new Image;
