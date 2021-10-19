@@ -11,7 +11,8 @@
     <mat-icon>add</mat-icon>
   </button>
   <button mat-fab color="primary" aria-label="The draw button"
-          (click)="draw()" [disabled]="!imgLoad"
+          [ngStyle]="{'background-color': enableDrawLine ? 'red' : ''}"
+          (click)="enableDraw()" [disabled]="!imgLoad"
           matTooltip="Dessiner">
     <mat-icon>create</mat-icon>
   </button>
@@ -25,4 +26,4 @@
 
 <mat-divider></mat-divider>
 
-<canvas #canvas>Canvas not supported</canvas>
+<canvas #canvas (contextmenu)="clickRight($event)" (click)="draw($event)" >Canvas not supported</canvas>

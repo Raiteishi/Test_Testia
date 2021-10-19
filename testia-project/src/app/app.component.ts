@@ -16,6 +16,10 @@ export class AppComponent implements AfterViewInit {
   imgLoad = false;
   isZoom = false;
   zoomMessage = 'Zoomer';
+  enableDrawLine = false;
+
+  private getFirstPoint = false;
+  private mousePos1 = [0, 0];
 
   ngAfterViewInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
@@ -31,13 +35,43 @@ export class AppComponent implements AfterViewInit {
     this.imgLoad = true;
   }
 
-  draw() {
+  enableDraw(): void {
+    this.enableDrawLine = !this.enableDrawLine;
+  }
 
+  clickRight(e: MouseEvent) {
+    this.cleanCanvas();
+    this.drawImage();
+    this.getFirstPoint = false;
+  }
+
+  draw(e: MouseEvent): void {
+    if (this.enableDrawLine) {
+      const y = e.offsetY;
+      const x = e.offsetX;
+      if (!this.getFirstPoint) {
+        this.mousePos1 = [x, y];
+        this.getFirstPoint = true;
+      } else {
+        const mousePos2 = [x, y];
+        this.drawLine(mousePos2);
+        this.getFirstPoint = false;
+      }
+    }
   }
 
   toggleZoom() {
     this.isZoom = !this.isZoom;
     this.zoomMessage = this.isZoom ? 'Dezoomer' : 'Zoomer';
+  }
+
+  private drawLine(mousePos2) {
+      this.ctx.beginPath();
+      this.ctx.lineWidth = 2;
+      this.ctx.moveTo(this.mousePos1[0], this.mousePos1[1]);
+      this.ctx.lineTo(mousePos2[0], mousePos2[1]);
+      this.ctx.stroke();
+      this.ctx.closePath();
   }
 
   private drawImage(): void {
