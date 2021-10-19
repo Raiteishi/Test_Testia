@@ -1,11 +1,11 @@
-import { Component, ViewChild, ElementRef, ngAfterViewInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements ngAfterViewInit {
+export class AppComponent implements AfterViewInit {
 
   @ViewChild('canvas', { static: true }) canvas: ElementRef<HTMLCanvasElement>;
 
@@ -15,6 +15,7 @@ export class AppComponent implements ngAfterViewInit {
   file: File | null = null;
   imgLoad = false;
   isZoom = false;
+  zoomMessage = 'Zoomer';
 
   ngAfterViewInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
@@ -36,6 +37,7 @@ export class AppComponent implements ngAfterViewInit {
 
   toggleZoom() {
     this.isZoom = !this.isZoom;
+    this.zoomMessage = this.isZoom ? 'Dezoomer' : 'Zoomer';
   }
 
   private drawImage(): void {

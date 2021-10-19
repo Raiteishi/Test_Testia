@@ -6,15 +6,18 @@
   <input #imgInput hidden="true" type="file" (change)="importImg($event.target.files)"
             accept="image/png, image/jpeg" />
   <button mat-fab color="primary" aria-label="The import button"
-          (click)="imgInput.click()">
+          (click)="imgInput.click()"
+          matTooltip="Importer">
     <mat-icon>add</mat-icon>
   </button>
   <button mat-fab color="primary" aria-label="The draw button"
-          (click)="draw()" [disabled]="!imgLoad">
+          (click)="draw()" [disabled]="!imgLoad"
+          matTooltip="Dessiner">
     <mat-icon>create</mat-icon>
   </button>
   <button mat-fab color="primary" aria-label="The zoom/zoom out button"
-          (click)="toggleZoom()" [disabled]="!imgLoad">
+          (click)="toggleZoom()" [disabled]="!imgLoad"
+          [matTooltip]="zoomMessage">
     <mat-icon *ngIf="!isZoom">zoom_in</mat-icon>
     <mat-icon *ngIf="isZoom">zoom_out</mat-icon>
   </button>
