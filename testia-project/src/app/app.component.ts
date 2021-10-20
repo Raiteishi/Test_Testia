@@ -65,6 +65,8 @@ export class AppComponent implements AfterViewInit {
 
   toggleZoom() {
     this.isZoom = !this.isZoom;
+    this.cleanCanvas();
+    this.drawImage();
     this.zoomMessage = this.isZoom ? 'Dezoomer' : 'Zoomer';
   }
 
@@ -85,7 +87,14 @@ export class AppComponent implements AfterViewInit {
       img.onload = () => {
           this.canvasNativeElement.width = img.width;
           this.canvasNativeElement.height = img.height;
-          this.ctx.drawImage(img, 0, 0, img.width, img.height);
+          const center_x = img.width / 4;
+          const center_y = img.height / 4;
+          if (this.isZoom) {
+            this.ctx.scale(2, 2);
+            this.ctx.drawImage(img, center_x, center_y, img.width, img.height, 0, 0, img.width, img.height);
+          } else {
+            this.ctx.drawImage(img, 0, 0, img.width, img.height);
+          }
       }
       img.src = URL.createObjectURL(this.file);
     }
