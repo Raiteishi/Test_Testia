@@ -71,6 +71,7 @@ export class AppComponent implements AfterViewInit {
     this.isZoom = !this.isZoom;
     this.cleanCanvas();
     this.drawImage();
+    this.enableDrawLine = this.isZoom ? false : this.enableDrawLine;
     this.zoomMessage = this.isZoom ? 'Dezoomer' : 'Zoomer';
   }
 
