@@ -17,9 +17,11 @@ export class AppComponent implements AfterViewInit {
   isZoom = false;
   zoomMessage = 'Zoomer';
   enableDrawLine = false;
+  paths = [];
 
   private getFirstPoint = false;
   private mousePos1 = [0, 0];
+  private center = {x: 0, y: 0};
 
   ngAfterViewInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
@@ -45,6 +47,7 @@ export class AppComponent implements AfterViewInit {
     this.cleanCanvas();
     this.drawImage();
     this.getFirstPoint = false;
+    this.paths = [];
   }
 
   /** Function enable when the draw button is click. Get the position of the first point with the first click and call the drawLine function on the second click */
@@ -57,7 +60,8 @@ export class AppComponent implements AfterViewInit {
         this.getFirstPoint = true;
       } else {
         const mousePos2 = [x, y];
-        this.drawLine(mousePos2);
+        this.paths.push({x:this.mousePos1, y:mousePos2});
+        this.drawLine(this.mousePos1, mousePos2);
         this.getFirstPoint = false;
       }
     }
@@ -71,11 +75,11 @@ export class AppComponent implements AfterViewInit {
   }
 
   /** Function to draw a line in the canvas. The line is draw by getting the position of two click of the user */
-  private drawLine(mousePos2) {
+  private drawLine(mousePos1, mousePos2) {
       this.ctx.beginPath();
       this.ctx.lineWidth = 2;
-      this.ctx.moveTo(this.mousePos1[0], this.mousePos1[1]);
-      this.ctx.lineTo(mousePos2[0], mousePos2[1]);
+      this.ctx.moveTo(mousePos1[0] - this.center.x, mousePos1[1] - this.center.y);
+      this.ctx.lineTo(mousePos2[0] - this.center.x, mousePos2[1] - this.center.y);
       this.ctx.stroke();
       this.ctx.closePath();
   }
@@ -87,14 +91,18 @@ export class AppComponent implements AfterViewInit {
       img.onload = () => {
           this.canvasNativeElement.width = img.width;
           this.canvasNativeElement.height = img.height;
-          const center_x = img.width / 4;
-          const center_y = img.height / 4;
+          this.center.x = this.isZoom ? img.width / 4 : 0;
+          this.center.y = this.isZoom ? img.height / 4 : 0;
           if (this.isZoom) {
             this.ctx.scale(2, 2);
-            this.ctx.drawImage(img, center_x, center_y, img.width, img.height, 0, 0, img.width, img.height);
+            this.ctx.drawImage(img, this.center.x, this.center.y, img.width, img.height, 0, 0, img.width, img.height);
           } else {
             this.ctx.drawImage(img, 0, 0, img.width, img.height);
           }
+          this.paths.forEach(path => {
+            this.drawLine(path.x, path.y);
+          });
+
       }
       img.src = URL.createObjectURL(this.file);
     }

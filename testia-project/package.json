@@ -11,7 +11,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "start:electron": "electron-forge start",
+    "start:electron": "ng build && electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
